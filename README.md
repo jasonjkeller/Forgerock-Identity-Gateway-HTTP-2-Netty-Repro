@@ -33,6 +33,8 @@ Start frig server from `forgerock-ping-gateway/identity-gateway-2024.6.0/bin`:
 
 ## copy frig server config files
 Once you've started the frig server it should create a config directory at `/Users/<USER>/.openig/config/`. Copy the files in `.openig/config/` in this repo over to `/Users/<USER>/.openig/config/`.
+You will need to update the admin.json file to enter the correct directory value, which should point to the `forgerock-ping-gateway/tls` directory in this repo. 
+You will need to update the client-side-https.json to enter the correct directory for the `reverseproxy-truststore.p12`, which should also point to the one in this repo.
 
 ## PingGateway sample application
 Start the sample app `forgerock-ping-gateway/PingGateway-sample-application-2024.6.0.jar` (attaching the Java agent isn't required for repro):
@@ -41,7 +43,7 @@ java -javaagent:/path/to/newrelic/newrelic.jar -Dnewrelic.config.log_file_name=p
 ```
 
 ## endpoints to hit
-Below are the endpoints for reproing the issue. They can bit exercised using the k6 load tester tool (see details below) or just in the browser.
+Below are the endpoints for reproing the issue. They can be exercised using the k6 load tester tool (see details below) or just in the browser.
 
 ### HTTP/1
 http://ig.example.com:8080/openig/ping  
