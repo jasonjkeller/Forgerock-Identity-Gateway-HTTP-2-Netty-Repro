@@ -1,0 +1,55 @@
+{
+    "name": "client-side-https",
+    "condition": "${find(request.uri.path, '/home/client-side-https')}",
+    "baseURI": "https://app.example.com:8444",
+    "heap": [
+      {
+        "name": "Base64EncodedSecretStore-1",
+        "type": "Base64EncodedSecretStore",
+        "config": {
+          "secrets": {
+            "keystore.secret.id": "cGFzc3dvcmQ="
+          }
+        }
+      },
+      {
+        "name": "KeyStoreSecretStore-1",
+        "type": "KeyStoreSecretStore",
+        "config": {
+          "file": "/Users/jkeller/nr/servers/forgerock-ping-gateway/reverseproxy-truststore.p12",
+          "storeType": "PKCS12",
+          "storePasswordSecretId": "keystore.secret.id",
+          "secretsProvider": "Base64EncodedSecretStore-1",
+          "mappings": [
+            {
+              "secretId": "trust.manager.secret.id",
+              "aliases": [ "ig-sampleapp" ]
+            }
+          ]
+        }
+      },
+      {
+        "name": "SecretsTrustManager-1",
+        "type": "SecretsTrustManager",
+        "config": {
+          "verificationSecretId": "trust.manager.secret.id",
+          "secretsProvider":"KeyStoreSecretStore-1"
+        }
+      },
+      {
+        "name": "ReverseProxyHandler-1",
+        "type": "ReverseProxyHandler",
+        "config": {
+          "tls": {
+            "type": "ClientTlsOptions",
+            "config": {
+              "trustManager": "SecretsTrustManager-1"
+            }
+          },
+          "hostnameVerifier": "ALLOW_ALL"
+        },
+        "capture": "all"
+      }
+    ],
+    "handler": "ReverseProxyHandler-1"
+  }

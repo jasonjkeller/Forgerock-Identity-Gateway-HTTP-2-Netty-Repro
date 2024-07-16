@@ -1,0 +1,42 @@
+{
+  "connectors": [
+    {
+      "port": 8080
+    },
+    {
+      "port": 8443,
+      "tls": "ServerTlsOptions-1"
+    }
+  ],
+  "heap": [
+    {
+      "name": "ServerTlsOptions-1",
+      "type": "ServerTlsOptions",
+      "config": {
+        "keyManager": {
+          "type": "SecretsKeyManager",
+          "config": {
+            "signingSecretId": "key.manager.secret.id",
+            "secretsProvider": "ServerIdentityStore"
+          }
+        }
+      }
+    },
+    {
+      "name": "ServerIdentityStore",
+      "type": "FileSystemSecretStore",
+      "config": {
+        "format": "PLAIN",
+        "directory": "/Users/jkeller/nr/servers/forgerock-ping-gateway/tls",
+        "suffix": ".pem",
+        "mappings": [{
+          "secretId": "key.manager.secret.id",
+          "format": {
+            "type": "PemPropertyFormat"
+          }
+        }]
+      }
+    }
+  ]
+}
+

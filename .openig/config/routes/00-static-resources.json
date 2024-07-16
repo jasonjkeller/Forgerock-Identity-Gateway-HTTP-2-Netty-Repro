@@ -1,0 +1,7 @@
+{
+  "name" : "00-static-resources",
+  "baseURI" : "http://app.example.com:8081",
+  "condition": "${find(request.uri.path,'^/css') or matchesWithRegex(request.uri.path, '^/.*\\\\.ico$') or matchesWithRegex(request.uri.path, '^/.*\\\\.gif$')}",
+  "handler": "ReverseProxyHandler"
+}
+

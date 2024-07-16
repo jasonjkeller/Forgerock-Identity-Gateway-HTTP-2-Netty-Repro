@@ -1,0 +1,27 @@
+{
+  "handler": {
+    "type": "Chain",
+    "config": {
+      "filters": [
+        {
+          "type": "StaticRequestFilter",
+          "config": {
+            "method": "POST",
+            "uri": "http://app.example.com:8081/login",
+            "form": {
+              "username": [
+                "demo"
+              ],
+              "password": [
+                "Ch4ng31t"
+              ]
+            }
+          }
+        }
+      ],
+      "handler": "ReverseProxyHandler"
+    }
+  },
+  "condition": "${find(request.uri.path, '^/static')}"
+}
+
